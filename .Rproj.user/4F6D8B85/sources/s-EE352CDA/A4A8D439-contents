@@ -29,8 +29,13 @@ prouni = readRDS(temp)
 ##### Nota de Corte
 
 coercivo <- data.frame(mensalidade = prouni$mensalidade, 
-                        medicina = prouni$Medicina, 
-                          nota = prouni$nota_integral_ampla)
+                       medicina = prouni$Medicina, 
+                       nota = prouni$nota_integral_ampla,
+                       vagas = prouni$total_bolsas,
+                       uf = prouni$uf_busca,
+                       uni = prouni$universidade_nome,
+                       campus = prouni$campus_nome,
+                       curso = prouni$nome)
 ##### Inspecione a base
 summary(coercivo)
 
