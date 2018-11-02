@@ -1,0 +1,34 @@
+\documentclass{beamer}
+%
+% Choose how your presentation looks.
+%
+% For more themes, color themes and font themes, see:
+% http://deic.uab.es/~iblanes/beamer_gallery/index_by_theme.html
+%
+\mode<presentation>
+{
+  \usetheme{Madrid}      % or try Darmstadt, Madrid, Warsaw, ...
+  \usecolortheme{default} % or try albatross, beaver, crane, ...
+  \usefonttheme{default}  % or try serif, structurebold, ...
+  \setbeamertemplate{navigation symbols}{}
+  \setbeamertemplate{caption}[numbered]
+} 
+
+
+\title[Rural Pensions] {Rural Pensions and Household Welfare}
+\subtitle{Heterogeneous Effects on Labor Supply, Income, School Attendance, Fertility and Food Consumption}
+\author{Daniel Duque}
+\institute{Presented by Daniel Duque}
+\date{18th October 2018}
+
+
+\begin{document}
+% * <tatamcafe@gmail.com> 2017-09-14T02:34:59.386Z:
+%
+% ^.
+\begin{frame}
+  \titlepage
+\end{frame}
+
+
+\end{document}

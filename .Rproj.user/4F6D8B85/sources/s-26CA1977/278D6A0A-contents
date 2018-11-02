@@ -1,7 +1,7 @@
 ---
 output:
-  pdf_document: default
   html_document: default
+  pdf_document: default
 ---
 Econometria Tradicional e Machine Learning: Classificando cursos no ProUni do jeito velho e do novo
 ========================================================
@@ -12,11 +12,10 @@ autosize: true
 First Slide
 ========================================================
 
-Existem 3 principais técnicas de classificação na econometria tradicional:
+Existem 2 principais técnicas de classificação na econometria tradicional:
 
 - Probit
 - Logit
-- Propensity Score Macthing
 
 Existem várias em Machine Learning:
 

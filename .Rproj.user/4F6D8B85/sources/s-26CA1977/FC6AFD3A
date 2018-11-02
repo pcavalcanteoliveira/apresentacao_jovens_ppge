@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1541197640831.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "4238139998",
+    "id" : "FC6AFD3A",
+    "lastKnownWriteTime" : 1541197802,
+    "last_content_update" : 1541197802810,
+    "path" : "C:/Users/pedro/Desktop/apresentacao_jovens_ppge/apresentacao.Rnw",
+    "project_path" : "apresentacao.Rnw",
+    "properties" : {
+        "cursorPosition" : "33,13",
+        "scrollLine" : "8",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "sweave"
+}
