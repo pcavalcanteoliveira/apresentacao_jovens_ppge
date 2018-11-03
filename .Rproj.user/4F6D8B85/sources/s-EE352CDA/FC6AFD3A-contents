@@ -46,18 +46,30 @@ Existem várias em Machine Learning:
 
 \begin{frame}
 
-\end{frame}
+\begin{figure}
+<<echo = F, fig.width = 2, fig.height = 2, fig.align = "center">>=
 
-\begin{frame}
+temp = tempfile()
 
-\end{frame}
+download.file(url = "https://github.com/pcavalcanteoliveira/apresentacao_jovens_ppge/blob/master/prouni_limpo.Rds?raw=true", mode = "wb", destfile = temp)
 
-\begin{frame}
+final = readRDS(temp)
 
-\end{frame}
+library(ggplot2)
+library(dplyr)
 
-\begin{frame}
-
+final %>%
+  ggplot(aes(x=mensalidade, color = medicina)) + 
+  xlim(0,2500) +
+  geom_histogram(aes(y=..density..), binwidth = 50) +
+  xlab("Mensalidade do curso no ProUni") + 
+  ylab("") +
+  geom_density(colour = "medium blue", size = 1.5) +
+  scale_y_continuous(labels = percent) +
+  geom_vline(aes(xintercept=mean(mensalidade, na.rm=T)),   
+             color="black", linetype="dashed", size=1)
+@
+\end{figure}
 \end{frame}
 
 \end{document}
