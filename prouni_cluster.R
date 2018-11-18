@@ -1,8 +1,10 @@
-####################################################
-####################################################
-####### ANALISANDO O PROUNI COM CLUSTERING #########
-######## PEDRO CAVALCANTE OLIVEIRA ################# 
-################ AZUL ##############################
+##################
+# Código com scripts para replicação dos resultados do seminário 
+# Econometria Tradicional vs Machine Learning
+# Autor: Pedro Cavalcnte Oliveira
+# Data da última alteração: 11/18/2018
+# obs: ...
+##################
 
 ##### Carregar bibliotecas
 
@@ -10,8 +12,7 @@ library(scales)
 library(e1071)
 library(tidyverse)
 
-##### A base de dados pode ser encontrada aqui: https://github.com/danmrc/azul/tree/master/content/post/ProUni
-
+######################
 dados = as.tibble(readRDS("prouni_limpo.Rds"))
 
 dados$dummy = ifelse(dados$medicina == "Medicina", 1, 0)
@@ -37,9 +38,7 @@ dados$index = sample(2, nrow(dados),
 sample = dados[dados$index == 1,]
 out.sample = dados[dados$index == 2,]
 
-######
-## SVM
-######
+#SVM
 
 svmfit = svm(medicina ~ mensalidade + nota + vagas,
              data = sample,
@@ -51,7 +50,6 @@ out.sample$predicaosvm = predict(svmfit, out.sample)
 
 resultadosSVM[[i]] = table(out.sample$medicina, out.sample$predicaosvm)
 
-
 ## modelo linear simples
 modelolinear = lm(dummy ~ nota + mensalidade + vagas,
                   data = sample)
@@ -61,6 +59,7 @@ out.sample$predicaoOLS = ifelse(out.sample$predicaoOLS > .5, "Medicina", "Não-M
 
 resultadosOLS[[i]] = table(out.sample$medicina, out.sample$predicaoOLS)
 
+#modelo probit
 modeloprobit = glm(dummy ~ mensalidade + nota + vagas,
                    data = dados, family = binomial(link = "probit"))
 
@@ -68,6 +67,8 @@ out.sample$predicaoPROBIT = predict(modeloprobit, out.sample)
 out.sample$predicaoPROBIT = ifelse(out.sample$predicaoPROBIT > .5, "Medicina", "Não-Medicina")
 
 resultadosPROBIT[[i]] = table(out.sample$medicina, out.sample$predicaoPROBIT)
+
+
 
 }
 
