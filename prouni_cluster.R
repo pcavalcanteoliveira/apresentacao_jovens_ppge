@@ -9,7 +9,7 @@
 
 ##### Carregar bibliotecas e definir seed
 
-set.seed(1234)
+set.seed(1010)
 library(scales)
 library(e1071)
 library(tidyverse)
