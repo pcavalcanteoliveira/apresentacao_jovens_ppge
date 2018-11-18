@@ -84,18 +84,12 @@ wssplot <- function(data, nc = 15, seed = 1234){
   plot(1:nc, wss, type = "b", xlab = "Número de Agrupamentos",
        ylab = "Soma dos Quadrados Intragrupo")}
 
-
 wssplot(sample) 
 
 ##### Pelos criterios anteriores, 3 clusters parece o adequado
 
-sample.para.rodar = tibble(nota = sample$nota, mensalidade = sample$mensalidade, 
-                           medicina = sample$medicina)
-
-analise_kmeans <- kmeans(sample.para.rodar, 
+analise_kmeans <- kmeans(sample, 
                           centers = 3)
-
-
 
 ##### Visuailzação e avaliação
 
