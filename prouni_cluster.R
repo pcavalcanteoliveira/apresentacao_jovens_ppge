@@ -32,7 +32,7 @@ for(i in 1:n) {
 
 dados$index = sample(2, nrow(dados), 
                      replace = TRUE,
-                     prob = c(0.8, 0.2))
+                     prob = c(0.75, 0.25))
 
 sample = dados[dados$index == 1,]
 out.sample = dados[dados$index == 2,]
