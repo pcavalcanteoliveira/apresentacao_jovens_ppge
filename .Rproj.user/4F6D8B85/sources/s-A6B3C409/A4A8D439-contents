@@ -1,13 +1,15 @@
 ##################
 # Código com scripts para replicação dos resultados do seminário 
 # Econometria Tradicional vs Machine Learning
-# Autor: Pedro Cavalcnte Oliveira
+# Autor: Pedro Cavalcante Oliveira, Departamento de Economia, UFF
+# email: pedrocolrj@gmail.com
 # Data da última alteração: 11/18/2018
 # obs: ...
 ##################
 
-##### Carregar bibliotecas
+##### Carregar bibliotecas e definir seed
 
+set.seed(1234)
 library(scales)
 library(e1071)
 library(tidyverse)
@@ -26,8 +28,6 @@ n = 10 # numero de validações
 resultadosSVM = list()
 resultadosOLS = list()
 resultadosPROBIT = list()
-
-set.seed(1234)
 
 for(i in 1:n) {
 
@@ -68,8 +68,6 @@ out.sample$predicaoPROBIT = ifelse(out.sample$predicaoPROBIT > .5, "Medicina", "
 
 resultadosPROBIT[[i]] = table(out.sample$medicina, out.sample$predicaoPROBIT)
 
-
-
 }
 
 plot(svmfit, dados, nota ~ mensalidade)
@@ -78,22 +76,13 @@ png(filename = "svmclassplot.png", width = 1280,
 
 ##################
 
-
-modeloprobit = glm(medicina ~ mensalidade + nota + vagas,
-                   data = dados, family = binomial(link = "logit"))
-
-ggplot(dados, aes(d = dummy, m = medicina)) +  
-  geom_roc()
-
-############
-
-wssplot <- function(data, nc=15, seed=1234){
-  wss <- (nrow(data)-1)*sum(apply(data,2,var))
+wssplot <- function(data, nc = 15, seed = 1234){
+  wss <- (nrow(data)-1)*sum(apply(data, 2, var))
   for (i in 2:nc){
     set.seed(seed)
     wss[i] <- sum(kmeans(data, centers=i)$withinss)}
-  plot(1:nc, wss, type="b", xlab="Number of Clusters",
-       ylab="Within groups sum of squares")}
+  plot(1:nc, wss, type = "b", xlab = "Número de Agrupamentos",
+       ylab = "Soma dos Quadrados Intragrupo")}
 
 
 wssplot(sample) 
