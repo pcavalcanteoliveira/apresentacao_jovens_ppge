@@ -13,6 +13,7 @@ set.seed(1010)
 library(scales)
 library(e1071)
 library(tidyverse)
+library(InformationValue)
 
 ######################
 dados = as.tibble(readRDS("prouni_limpo.Rds"))
@@ -33,14 +34,14 @@ for(i in 1:n) {
 
 dados$index = sample(2, nrow(dados), 
                      replace = TRUE,
-                     prob = c(0.75, 0.25))
+                     prob = c(0.5, 0.5))
 
 sample = dados[dados$index == 1,]
 out.sample = dados[dados$index == 2,]
 
 #SVM
 
-svmfit = svm(medicina ~ mensalidade + nota + vagas,
+svmfit = svm(medicina ~ mensalidade + nota,
              data = sample,
              type = "C-classification",
              scale = TRUE,
@@ -51,7 +52,7 @@ out.sample$predicaosvm = predict(svmfit, out.sample)
 resultadosSVM[[i]] = table(out.sample$medicina, out.sample$predicaosvm)
 
 ## modelo linear simples
-modelolinear = lm(dummy ~ nota + mensalidade + vagas,
+modelolinear = lm(dummy ~ nota + mensalidade,
                   data = sample)
 
 out.sample$predicaoOLS = predict(modelolinear, out.sample)
@@ -60,12 +61,12 @@ out.sample$predicaoOLS = ifelse(out.sample$predicaoOLS > .5, "Medicina", "Não-M
 resultadosOLS[[i]] = table(out.sample$medicina, out.sample$predicaoOLS)
 
 #modelo probit
-modeloprobit = glm(dummy ~ mensalidade + nota + vagas,
-                   data = dados, family = binomial(link = "probit"))
+modeloprobit = glm(dummy ~ mensalidade + nota,
+                   data = dados, family = binomial(link = "logit"))
 
 out.sample$predicaoPROBIT = predict(modeloprobit, out.sample)
-out.sample$predicaoPROBIT = ifelse(out.sample$predicaoPROBIT > .5, "Medicina", "Não-Medicina")
-
+out.sample$predicaoPROBIT = ifelse(out.sample$predicaoPROBIT > .1, "Medicina", "Não-Medicina")
+out.sample$predicaoPROBITdummy = ifelse(out.sample$predicaoPROBIT == "Medicina", 1, 0)
 resultadosPROBIT[[i]] = table(out.sample$medicina, out.sample$predicaoPROBIT)
 
 }

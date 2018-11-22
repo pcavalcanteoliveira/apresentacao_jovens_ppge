@@ -25,10 +25,10 @@ table(sample$medicina) # averigua se medicina não ficou fora demais
 sample %>%
   ggplot(aes(x=mensalidade)) + 
   xlim(0,2500) +
-  geom_histogram(aes(y=..density..), binwidth = 50, fill = "red") +
+  geom_histogram(aes(y=..density..), binwidth = 50, fill = "#f26d6d") +
   xlab("Mensalidade do curso no ProUni") + 
   ylab("") +
-  geom_density(colour = "blue", size = 1.5) +
+  geom_density(colour = "#4e6ece", size = 1.5) +
   scale_y_continuous(labels = percent) +
   geom_vline(aes(xintercept=mean(mensalidade, na.rm=T)),   
              color="black", linetype="dashed", size=1) 
@@ -52,10 +52,10 @@ ggsave(paste(getwd(),"imagem2"),
 sample %>%
   ggplot(aes(x=nota)) + 
   xlim(400,800) +
-  geom_histogram(aes(y=..density..), binwidth = 10) +
+  geom_histogram(aes(y=..density.., fill = "#f26d6d"), binwidth = 10) +
   xlab("Nota de Corte de Ampla Concorrência do curso no ProUni") + 
   ylab("") +
-  geom_density(colour =" medium blue", size = 1.5) +
+  geom_density(colour ="#4e6ece", size = 1.5) +
   scale_y_continuous(labels = percent) +
   geom_vline(aes(xintercept=mean(nota, na.rm=T)),   
              color="black", linetype="dashed", size=1)
