@@ -1,9 +1,9 @@
 ## DESCRITIVAS
 
-## CARREGAR OS DADOS ANTES
-
 library(tidyverse)
+library(scales)
 
+########
 dados = as.tibble(readRDS("prouni_limpo.Rds"))
 dados$dummy = ifelse(dados$medicina == "Medicina", 1, 0)
 dados$completo = complete.cases(dados)

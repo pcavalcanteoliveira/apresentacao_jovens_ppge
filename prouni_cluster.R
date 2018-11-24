@@ -10,10 +10,11 @@
 ##### Carregar bibliotecas e definir seed
 
 set.seed(1010)
-library(scales)
-library(e1071)
+
 library(tidyverse)
+library(e1071)
 library(InformationValue)
+library(randomForest)
 
 ######################
 dados = as.tibble(readRDS("prouni_limpo.Rds"))
@@ -29,6 +30,7 @@ n = 10 # numero de validações
 resultadosSVM = list()
 resultadosOLS = list()
 resultadosPROBIT = list()
+resultadosRF = list()
 
 for(i in 1:n) {
 
@@ -69,6 +71,17 @@ out.sample$predicaoPROBIT = ifelse(out.sample$predicaoPROBIT > .1, "Medicina", "
 out.sample$predicaoPROBITdummy = ifelse(out.sample$predicaoPROBIT == "Medicina", 1, 0)
 resultadosPROBIT[[i]] = table(out.sample$medicina, out.sample$predicaoPROBIT)
 
+########## modelo RF
+
+floresta = randomForest(medicina ~ mensalidade + nota,
+                        data = sample, importance = TRUE)
+
+out.sample$predicaoRF = predict(floresta, 
+                                out.sample,
+                                type = "response")
+
+resultadosRF[[i]] = table(out.sample$medicina, out.sample$predicaoRF)
+
 }
 
 plot(svmfit, dados, nota ~ mensalidade)
@@ -76,6 +89,16 @@ png(filename = "svmclassplot.png", width = 1280,
     height = 720, res = 500)
 
 ##################
+
+
+
+plot(floresta,
+     main = "Erro das estimativas de Random Forest")
+
+
+
+##########
+
 
 wssplot <- function(data, nc = 15, seed = 1234){
   wss <- (nrow(data)-1)*sum(apply(data, 2, var))
