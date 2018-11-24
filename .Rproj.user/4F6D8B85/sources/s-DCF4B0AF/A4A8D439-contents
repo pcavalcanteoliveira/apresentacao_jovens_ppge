@@ -3,7 +3,7 @@
 # Econometria Tradicional vs Machine Learning
 # Autor: Pedro Cavalcante Oliveira, Departamento de Economia, UFF
 # email: pedrocolrj@gmail.com
-# Data da última alteração: 11/18/2018
+# Data da última alteração: 24/11/2018
 # obs: ...
 ##################
 
