@@ -54,6 +54,7 @@ out.sample$predicaosvm = predict(svmfit, out.sample)
 resultadosSVM[[i]] = table(out.sample$medicina, out.sample$predicaosvm)
 
 ## modelo linear simples
+
 modelolinear = lm(dummy ~ nota + mensalidade,
                   data = sample)
 
@@ -63,6 +64,7 @@ out.sample$predicaoOLS = ifelse(out.sample$predicaoOLS > .5, "Medicina", "Não-M
 resultadosOLS[[i]] = table(out.sample$medicina, out.sample$predicaoOLS)
 
 #modelo probit
+
 modeloprobit = glm(dummy ~ mensalidade + nota,
                    data = dados, family = binomial(link = "logit"))
 
@@ -90,15 +92,10 @@ png(filename = "svmclassplot.png", width = 1280,
 
 ##################
 
-
-
 plot(floresta,
      main = "Erro das estimativas de Random Forest")
 
-
-
 ##########
-
 
 wssplot <- function(data, nc = 15, seed = 1234){
   wss <- (nrow(data)-1)*sum(apply(data, 2, var))
@@ -125,14 +122,11 @@ plot(sample,
 sample %>%
   ggplot(aes(x=mensalidade, y=nota,
              colour = analise_kmeans$cluster, show.legend = FALSE)) +
-  geom_point()+
-  stat_density_2d()+
-  xlab("Mensalidade do curso no ProUni")+
+  geom_point() +
+  stat_density_2d() +
+  xlab("Mensalidade do curso no ProUni") +
   ylab("Nota de Corte do curso no ProUni") +
   labs(col = "Agrupamento")
-
-
-
 
 
 normal <- data.frame(apply(sample, 2, scale))
@@ -155,9 +149,9 @@ plot(finalnormal,
         col = analise_kmeans_normal$cluster)
 
 clusplot(sample, analise_kmeans_normal$cluster,
-            main='Procurando por 3 agrupamentos no ProUni',
-              color=TRUE,
-                shade=TRUE,
-                  lines=0)
+            main = 'Procurando por 3 agrupamentos no ProUni',
+              color = TRUE,
+                shade = TRUE,
+                  lines = 0)
 
 
