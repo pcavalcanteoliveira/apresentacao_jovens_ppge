@@ -22,71 +22,50 @@ table(sample$medicina) # averigua se medicina não ficou fora demais
 
 #### GRAFICOS
 
-sample %>%
+dados %>%
   ggplot(aes(x=mensalidade)) + 
   xlim(0,2500) +
   geom_histogram(aes(y=..density..), binwidth = 50, fill = "#f26d6d") +
   xlab("Mensalidade do curso no ProUni") + 
   ylab("") +
-  geom_density(colour = "#4e6ece", size = 1.5) +
   scale_y_continuous(labels = percent) +
   geom_vline(aes(xintercept=mean(mensalidade, na.rm=T)),   
              color="black", linetype="dashed", size=1) 
 
-ggsave(paste(getwd(),"imagem1"), 
-       dpi = 750, 
-       device = "png")
+ggsave("imagem1.png", 
+       dpi = 320)
 
-sample %>%
+dados %>%
   ggplot(aes(x=mensalidade, fill = medicina)) + 
   xlab("Mensalidade do curso no ProUni") + 
   ylab("") +
   geom_histogram(aes(y=..density..), binwidth = 300) +
   scale_y_continuous(labels = percent) 
 
-ggsave(paste(getwd(),"imagem2"), 
-       dpi = 750, 
-       device = "png")
+ggsave("imagem2.png", 
+       dpi = 320)
 
 
-sample %>%
+dados %>%
   ggplot(aes(x=nota)) + 
   xlim(400,800) +
-  geom_histogram(aes(y=..density.., fill = "#f26d6d"), binwidth = 10) +
+  geom_histogram(aes(y=..density.., fill = "#f26d6d"), 
+                 binwidth = 10, show.legend = FALSE) +
   xlab("Nota de Corte de Ampla Concorrência do curso no ProUni") + 
   ylab("") +
-  geom_density(colour ="#4e6ece", size = 1.5) +
   scale_y_continuous(labels = percent) +
   geom_vline(aes(xintercept=mean(nota, na.rm=T)),   
              color="black", linetype="dashed", size=1)
 
-ggsave(paste(getwd(),"imagem3"), 
-       dpi = 750, 
-       device = "png")
+ggsave("imagem3.png", 
+       dpi = 320)
 
-
-sample %>%
-  ggplot(aes(x=nota)) + 
-  xlab("Nota de Corte de Ampla Concorrência do curso no ProUni") + 
-  ylab("") +
-  geom_histogram(aes(y=..density..), binwidth = 10) +
-  scale_y_continuous(labels = percent) +
-  facet_wrap(~label) +
-  geom_density(colour =" medium blue", size = 1)
-
-ggsave(paste(getwd(),"imagem4"), 
-       dpi = 750, 
-       device = "png")
-
-
-sample %>%
-  ggplot(aes(x = mensalidade, y = nota,
-             colour = medicina, show.legend = FALSE)) +
-  geom_point()+
-  stat_density_2d()+
+dados %>%
+  ggplot(aes(x = mensalidade, y = nota))+
+             #,colour = medicina, show.legend = FALSE)) +
+  geom_jitter()+
   xlab("Mensalidade do curso no ProUni")+
   ylab("Nota de Corte do curso no ProUni")
 
-ggsave(paste(getwd(),"imagem5"), 
-       dpi = 750, 
-       device = "png")
+ggsave("imagem4.png", 
+       dpi = 320)

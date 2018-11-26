@@ -5,15 +5,15 @@
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "2297588003",
+    "hash" : "1465802245",
     "id" : "A4A8D439",
-    "lastKnownWriteTime" : 1543116695,
-    "last_content_update" : 1543116695681,
+    "lastKnownWriteTime" : 1543276144,
+    "last_content_update" : 1543276144791,
     "path" : "C:/Users/pedro/Desktop/apresentacao_jovens_ppge/prouni_cluster.R",
     "project_path" : "prouni_cluster.R",
     "properties" : {
-        "cursorPosition" : "135,0",
-        "scrollLine" : "0"
+        "cursorPosition" : "98,29",
+        "scrollLine" : "81"
     },
     "relative_order" : 6,
     "source_on_save" : false,

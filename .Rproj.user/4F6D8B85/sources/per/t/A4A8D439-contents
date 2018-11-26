@@ -25,12 +25,12 @@ dados$completo = complete.cases(dados)
 dados = dados[dados$completo == TRUE,]
 dados$completo = NULL
 
-n = 10 # numero de validações
+n = 50 # numero de validações
 
-resultadosSVM = list()
-resultadosOLS = list()
+resultadosSVM = vector()
+resultadosOLS = vector()
 resultadosPROBIT = list()
-resultadosRF = list()
+resultadosRF = vector()
 
 for(i in 1:n) {
 
@@ -51,7 +51,8 @@ svmfit = svm(medicina ~ mensalidade + nota,
 
 out.sample$predicaosvm = predict(svmfit, out.sample)
 
-resultadosSVM[[i]] = table(out.sample$medicina, out.sample$predicaosvm)
+resultSVM = as.vector(table(out.sample$medicina, out.sample$predicaosvm))
+resultadosSVM[i] = resultSVM[1]/(resultSVM[1] + resultSVM[2])
 
 ## modelo linear simples
 
@@ -61,7 +62,9 @@ modelolinear = lm(dummy ~ nota + mensalidade,
 out.sample$predicaoOLS = predict(modelolinear, out.sample)
 out.sample$predicaoOLS = ifelse(out.sample$predicaoOLS > .5, "Medicina", "Não-Medicina")
 
-resultadosOLS[[i]] = table(out.sample$medicina, out.sample$predicaoOLS)
+resultOLS = as.vector(table(out.sample$medicina, out.sample$predicaoOLS))
+resultadosOLS[i] = resultOLS[1]/(resultOLS[1] + resultOLS[2])
+
 
 #modelo probit
 
@@ -82,20 +85,39 @@ out.sample$predicaoRF = predict(floresta,
                                 out.sample,
                                 type = "response")
 
-resultadosRF[[i]] = table(out.sample$medicina, out.sample$predicaoRF)
-
+resultRF = as.vector(table(out.sample$medicina, out.sample$predicaoRF))
+resultadosRF[i] = resultRF[1]/(resultRF[1] + resultRF[2])
 }
 
-plot(svmfit, dados, nota ~ mensalidade)
+
+
+
+resultados = data.frame(OLS = resultadosOLS,
+                        SVM = resultadosSVM,
+                        RF = resultadosRF)
+
+ ### agora arrumamos os dados
+resultados %>%
+  gather("OLS", "SVM", "RF",
+         key = "Método", 
+         value = "Taxa de acerto")
+
+
+
+
+
+
 png(filename = "svmclassplot.png", width = 1280, 
     height = 720, res = 500)
+
+plot(svmfit, dados, nota ~ mensalidade)
 
 ##################
 
 plot(floresta,
      main = "Erro das estimativas de Random Forest")
 
-##########
+########## K MEANS
 
 wssplot <- function(data, nc = 15, seed = 1234){
   wss <- (nrow(data)-1)*sum(apply(data, 2, var))
