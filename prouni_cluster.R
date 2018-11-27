@@ -89,24 +89,32 @@ resultRF = as.vector(table(out.sample$medicina, out.sample$predicaoRF))
 resultadosRF[i] = resultRF[1]/(resultRF[1] + resultRF[2])
 }
 
-
-
-
-resultados = data.frame(OLS = resultadosOLS,
-                        SVM = resultadosSVM,
-                        RF = resultadosRF)
+########
+resultados = tibble(Linear = resultadosOLS,
+                    SVM = resultadosSVM,
+                    RF = resultadosRF) # formato todo fudido
 
  ### agora arrumamos os dados
-resultados %>%
-  gather("OLS", "SVM", "RF",
-         key = "Método", 
-         value = "Taxa de acerto")
+resultados = resultados %>%
+  gather("Linear", "SVM", "RF",
+         key = método, 
+         value = Acerto)
 
+resultados$estim = factor(resultados$estim)
 
+sumario = resultados %>%
+  group_by(método) %>%
+  summarise(Sucesso = mean(Acerto))
 
+sumario = sumario %>%
+  arrange(Sucesso)
 
+sumario %>%
+  ggplot(aes(x = método, y = Sucesso, fill = método)) + 
+  geom_bar(stat = "identity") +
+  labs(title = "Resultados por método")
 
-
+######################
 png(filename = "svmclassplot.png", width = 1280, 
     height = 720, res = 500)
 
