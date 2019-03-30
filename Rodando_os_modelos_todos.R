@@ -25,7 +25,7 @@ dados$completo = complete.cases(dados)
 dados = dados[dados$completo == TRUE,]
 dados$completo = NULL
 
-n = 50 # numero de validações
+n = 100 # numero de validações
 
 resultadosSVM = vector()
 resultadosOLS = vector()
