@@ -34,7 +34,8 @@ resultadosRF = vector()
 
 for(i in 1:n) {
 
-dados$index = sample(2, nrow(dados), 
+dados$index = sample(2, 
+                     nrow(dados), 
                      replace = TRUE,
                      prob = c(0.5, 0.5))
 
@@ -60,7 +61,8 @@ modelolinear = lm(dummy ~ nota + mensalidade,
                   data = sample)
 
 out.sample$predicaoOLS = predict(modelolinear, out.sample)
-out.sample$predicaoOLS = ifelse(out.sample$predicaoOLS > .5, "Medicina", "Não-Medicina")
+out.sample$predicaoOLS = ifelse(out.sample$predicaoOLS > .5, 
+                                "Medicina", "Não-Medicina")
 
 resultOLS = as.vector(table(out.sample$medicina, out.sample$predicaoOLS))
 resultadosOLS[i] = resultOLS[1]/(resultOLS[1] + resultOLS[2])
@@ -69,7 +71,8 @@ resultadosOLS[i] = resultOLS[1]/(resultOLS[1] + resultOLS[2])
 #modelo probit
 
 modeloprobit = glm(dummy ~ mensalidade + nota,
-                   data = dados, family = binomial(link = "logit"))
+                   data = dados, 
+                   family = binomial(link = "logit"))
 
 out.sample$predicaoPROBIT = predict(modeloprobit, out.sample)
 out.sample$predicaoPROBIT = ifelse(out.sample$predicaoPROBIT > .1, "Medicina", "Não-Medicina")
@@ -79,7 +82,8 @@ resultadosPROBIT[[i]] = table(out.sample$medicina, out.sample$predicaoPROBIT)
 ########## modelo RF
 
 floresta = randomForest(medicina ~ mensalidade + nota,
-                        data = sample, importance = TRUE)
+                        data = sample, 
+                        importance = TRUE)
 
 out.sample$predicaoRF = predict(floresta, 
                                 out.sample,
@@ -110,22 +114,28 @@ sumario = sumario %>%
   arrange(Sucesso)
 
 sumario %>%
-  ggplot(aes(x = método, y = Sucesso, fill = método)) + 
+  ggplot(aes(x = método, 
+             y = Sucesso, 
+             fill = método)) + 
   geom_bar(stat = "identity") +
   labs(title = "Resultados por método")
 
 ######################
-png(filename = "svmclassplot.png", width = 1280, 
-    height = 720, res = 500)
+png(filename = "svmclassplot.png", 
+    width = 1280, 
+    height = 720, 
+    res = 500)
 
-plot(svmfit, dados, nota ~ mensalidade)
+plot(svmfit, 
+     dados, 
+     nota ~ mensalidade)
 
 ##################
 
 plot(floresta,
      main = "Erro das estimativas de Random Forest")
 
-########## K MEANS
+########## CLUSTERING K-MEANS
 
 wssplot <- function(data, nc = 15, seed = 1234){
   wss <- (nrow(data)-1)*sum(apply(data, 2, var))
@@ -140,7 +150,7 @@ wssplot(sample)
 ##### Pelos criterios anteriores, 3 clusters parece o adequado
 
 analise_kmeans <- kmeans(sample, 
-                          centers = 3)
+                         centers = 3)
 
 ##### Visuailzação e avaliação
 
@@ -150,8 +160,10 @@ plot(sample,
      col = analise_kmeans$cluster)
 
 sample %>%
-  ggplot(aes(x=mensalidade, y=nota,
-             colour = analise_kmeans$cluster, show.legend = FALSE)) +
+  ggplot(aes(x=mensalidade, 
+             y=nota,
+             colour = analise_kmeans$cluster, 
+             show.legend = FALSE)) +
   geom_point() +
   stat_density_2d() +
   xlab("Mensalidade do curso no ProUni") +
@@ -165,23 +177,23 @@ normal$medicina <- sample$medicina
 #### Repetimos os procedimentos anteriores
 
 wssplot(finalnormal, 
-            nc=6) 
+        nc = 6) 
 
 #### Observe que agora 3 parece ser um k melhor
 
 analise_kmeans_normal <- kmeans(finalnormal, 
-                                    centers = 3)
+                                centers = 3)
 
 table(finalnormal$medicina, 
-          analise_kmeans_normal$cluster)
+      analise_kmeans_normal$cluster)
 
 plot(finalnormal, 
-        col = analise_kmeans_normal$cluster)
+     col = analise_kmeans_normal$cluster)
 
 clusplot(sample, analise_kmeans_normal$cluster,
-            main = 'Procurando por 3 agrupamentos no ProUni',
-              color = TRUE,
-                shade = TRUE,
-                  lines = 0)
+         main = 'Procurando por 3 agrupamentos no ProUni',
+         color = TRUE,
+         shade = TRUE,
+         lines = 0)
 
 
