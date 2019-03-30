@@ -11,7 +11,9 @@
 
 set.seed(1010)
 
-library(tidyverse)
+library(dplyr)
+library(ggplot2)
+library(tidyr)
 library(e1071)
 library(InformationValue)
 library(randomForest)
