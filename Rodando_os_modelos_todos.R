@@ -2,8 +2,8 @@
 # Código com scripts para replicação dos resultados do seminário 
 # Econometria Tradicional vs Machine Learning
 # Autor: Pedro Cavalcante Oliveira, Departamento de Economia, UFF
-# email: pedrocolrj@gmail.com
-# Data da última alteração: 24/11/2018
+# email: pc_oliveira@id.uff.br
+# Data da última alteração: 30/03/2019
 # obs: ...
 ##################
 
