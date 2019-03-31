@@ -11,6 +11,7 @@
 
 set.seed(1010)
 
+library(tictoc)
 library(dplyr)
 library(ggplot2)
 library(tidyr)
@@ -20,6 +21,7 @@ library(InformationValue)
 library(randomForest)
 
 ######################
+tic("Ler os dados")
 dados = as_tibble(readRDS("prouni_limpo.Rds"))
 
 dados$dummy = ifelse(dados$medicina == "Medicina", 1, 0)
@@ -28,6 +30,9 @@ dados$completo = complete.cases(dados)
 dados = dados[dados$completo == TRUE,]
 dados$completo = NULL
 
+toc()
+
+
 n = 100 # numero de validações
 
 resultadosSVM = vector()
@@ -35,6 +40,7 @@ resultadosOLS = vector()
 resultadosPROBIT = vector()
 resultadosRF = vector()
 
+tic("Rodar o Modelo")
 for(i in 1:n) {
 
 dados$index = sample(2, 
@@ -96,7 +102,8 @@ out.sample$predicaoRF = predict(floresta,
 resultRF = as.vector(table(out.sample$medicina, out.sample$predicaoRF))
 resultadosRF[i] = resultRF[1]/(resultRF[1] + resultRF[2])
 }
-
+toc()
+tic("Tratar e Apresentar Resultados")
 ########
 resultados = tibble(Linear = resultadosOLS,
                     SVM = resultadosSVM,
@@ -138,6 +145,9 @@ plot(svmfit,
 
 plot(floresta,
      main = "Erro das estimativas de Random Forest")
+
+toc()
+toc()
 
 ########## CLUSTERING K-MEANS
 

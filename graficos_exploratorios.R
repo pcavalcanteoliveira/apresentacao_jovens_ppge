@@ -69,3 +69,29 @@ dados %>%
 
 ggsave("imagem4.png", 
        dpi = 320)
+
+########################
+
+
+sumario %>%
+  ggplot(aes(x = método, 
+             y = Sucesso, 
+             fill = método)) + 
+  geom_bar(stat = "identity") +
+  labs(title = "Resultados por método")
+
+######################
+png(filename = "svmclassplot.png", 
+    width = 1280, 
+    height = 720, 
+    res = 500)
+
+plot(svmfit, 
+     dados, 
+     nota ~ mensalidade)
+
+##################
+
+plot(floresta,
+     main = "Erro das estimativas de Random Forest")
+
